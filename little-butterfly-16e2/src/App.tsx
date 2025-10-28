@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import { useLoggedInUser, usePreviousChats } from './hooks'
+import { usePreviousChats } from './hooks'
 import { useAuth } from './context/AuthContext'
 import AppBar from './components/AppBar'
 import SideBar from './components/SideBar'
@@ -8,7 +8,7 @@ import ChatArea from './components/ChatArea'
 import Login from './components/Login'
 
 function App() {
-  const { isAuthenticated, login, username } = useAuth()
+  const { isAuthenticated, login } = useAuth()
   const [currentChat, setCurrentChat] = useState<string | null>(null)
   const [chats, , refreshChats] = usePreviousChats(isAuthenticated)
 

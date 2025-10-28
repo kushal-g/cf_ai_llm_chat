@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import './ThinkingAnimation.css';
 
 export default function ThinkingAnimation() {

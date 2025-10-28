@@ -1,10 +1,4 @@
-export const BASE_URL = "http://localhost:8787"
-
-export interface User {
-    firstName: string;
-    lastName: string;
-    userId: string;
-}
+export const BASE_URL = "https://lucky-poetry-2fb1.kushalgarg2000.workers.dev/"
 
 // Helper function to get authorization headers
 function getAuthHeaders(): HeadersInit {
@@ -15,26 +9,13 @@ function getAuthHeaders(): HeadersInit {
     };
 }
 
-export async function getLoggedInUserId(): Promise<string> {
-    return "123"
-}
-
-
-export async function getUser(userId: string): Promise<User> {
-    return {
-        firstName: "Kushal",
-        lastName: "Garg",
-        userId
-    }
-}
-
 export interface ChatPreview {
     title: string;
     recentMessage: string;
     chatId: string;
 }
 
-export async function getChats(userId: string): Promise<ChatPreview[]> {
+export async function getChats(): Promise<ChatPreview[]> {
     const response = await fetch(`${BASE_URL}/latest-messages`, {
         headers: getAuthHeaders()
     })

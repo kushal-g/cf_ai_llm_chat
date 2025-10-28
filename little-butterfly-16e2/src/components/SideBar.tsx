@@ -1,5 +1,4 @@
 import { type Dispatch, type SetStateAction, useState } from 'react'
-import { usePreviousChats } from '../hooks'
 import { truncate } from "lodash"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMessage } from '@fortawesome/free-solid-svg-icons'
@@ -110,8 +109,8 @@ export default function SideBar({ chats, currentChat, setCurrentChat }: SideBarP
                                 backgroundColor: chat.chatId === currentChat
                                     ? "#ffffff20"
                                     : hoveredChat === chat.chatId
-                                    ? "#ffffff10"
-                                    : "transparent",
+                                        ? "#ffffff10"
+                                        : "transparent",
                                 borderRadius: "10px",
                                 transition: "all 0.2s ease",
                                 border: chat.chatId === currentChat
