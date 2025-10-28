@@ -1,7 +1,18 @@
+export const BASE_URL = "http://localhost:8787"
+
 export interface User {
     firstName: string;
     lastName: string;
     userId: string;
+}
+
+// Helper function to get authorization headers
+function getAuthHeaders(): HeadersInit {
+    const token = localStorage.getItem('access_token');
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': token ? `Bearer ${token}` : '',
+    };
 }
 
 export async function getLoggedInUserId(): Promise<string> {
@@ -24,44 +35,47 @@ export interface ChatPreview {
 }
 
 export async function getChats(userId: string): Promise<ChatPreview[]> {
-    console.log(userId)
-    return [
-        {
-            title: "Fix foam in dishwasher",
-            recentMessage: "Foam in a dishwasher is almost always caused by using the wrong type or too much detergent. Here’s how to fix it safely:",
-            chatId: "234"
-        }
-    ]
+    const response = await fetch(`${BASE_URL}/latest-messages`, {
+        headers: getAuthHeaders()
+    })
+
+    const body = await response.json()
+    console.log(body)
+    return body.map((msg: any) => ({
+        title: msg.chat_title,
+        recentMessage: msg.message,
+        chatId: msg.chat_id
+    }))
 }
 
 export interface ChatMessage {
-    sender: "LLM" | "USER";
+    sender: "assistant" | "user";
     message: string;
-    timestamp: Date;
+    timestamp: string;
+    chat_id: string;
+}
+
+export async function sendMessage(chatId: string, userResponse: string): Promise<string> {
+    const response = await fetch(`${BASE_URL}?chatId=${chatId}`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+            userResponse
+        })
+    })
+
+    const body = await response.json()
+    return body["assistantResponse"]
 }
 
 export async function getChatMessages(chatId: string): Promise<ChatMessage[]> {
-    console.log(chatId)
-    return [
-        {
-            sender: "USER",
-            message: "Hello Message 1",
-            timestamp: new Date('2025-01-01')
-        },
-        {
-            sender: "LLM",
-            message: "Hello Message 2",
-            timestamp: new Date('2025-02-02')
-        },
-        {
-            sender: "USER",
-            message: "Goodbye Machine",
-            timestamp: new Date('2025-03-03')
-        },
-        {
-            sender: "LLM",
-            message: "Goodbye Human",
-            timestamp: new Date('2025-04-04')
-        }
-    ]
+    const response = await fetch(`${BASE_URL}?chatId=${chatId}`, {
+        headers: getAuthHeaders()
+    })
+
+    const body = await response.json()
+    console.log(body)
+    return body
+
+
 }

@@ -19,7 +19,8 @@
 		"@fortawesome/react-fontawesome": "^3.1.0",
 		"lodash": "^4.17.21",
 		"react": "^19.1.1",
-		"react-dom": "^19.1.1"
+		"react-dom": "^19.1.1",
+		"react-markdown": "^10.1.0"
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "^1.13.15",

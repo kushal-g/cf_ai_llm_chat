@@ -19,11 +19,11 @@ export function useLoggedInUser(): [User | null, boolean] {
 }
 
 
-export function usePreviousChats(): [ChatPreview[] | null, boolean] {
+export function usePreviousChats(isAuthenticated?: boolean): [ChatPreview[] | null, boolean, () => void] {
     const [chats, setChats] = useState<ChatPreview[] | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
-    useEffect(() => {
+    const refresh = () => {
         getLoggedInUserId()
             .then(userId => getChats(userId))
             .then(chats => {
@@ -31,7 +31,12 @@ export function usePreviousChats(): [ChatPreview[] | null, boolean] {
             })
             .catch(e => console.error(e))
             .finally(() => setIsLoading(false))
-    }, [])
+    }
+    useEffect(() => {
+        if (isAuthenticated !== false) {
+            refresh()
+        }
+    }, [isAuthenticated])
 
-    return [chats, isLoading]
+    return [chats, isLoading, refresh]
 }

@@ -1,21 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { useLoggedInUser } from './hooks'
+import { useLoggedInUser, usePreviousChats } from './hooks'
+import { useAuth } from './context/AuthContext'
 import AppBar from './components/AppBar'
 import SideBar from './components/SideBar'
 import ChatArea from './components/ChatArea'
+import Login from './components/Login'
 
 function App() {
-  const [user, _] = useLoggedInUser()
+  const { isAuthenticated, login, username } = useAuth()
   const [currentChat, setCurrentChat] = useState<string | null>(null)
+  const [chats, , refreshChats] = usePreviousChats(isAuthenticated)
+
+  if (!isAuthenticated) {
+    return <Login onLogin={login} />
+  }
 
   return (
     <div style={{}}>
-      <AppBar user={user} />
+      <AppBar />
       <div style={{ display: "flex" }}>
 
-        <SideBar currentChat={currentChat} setCurrentChat={setCurrentChat} />
-        <ChatArea currentChat={currentChat} />
+        <SideBar chats={chats} currentChat={currentChat} setCurrentChat={setCurrentChat} />
+        <ChatArea currentChat={currentChat} refreshChats={refreshChats} />
       </div>
     </div>
   )
