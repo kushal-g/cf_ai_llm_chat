@@ -1,4 +1,4 @@
-export const BASE_URL = "http://lucky-poetry-2fb1.kushalgarg2000.workers.dev"
+export const BASE_URL = "https://lucky-poetry-2fb1.kushalgarg2000.workers.dev"
 
 // Helper function to get authorization headers
 function getAuthHeaders(): HeadersInit {
