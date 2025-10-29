@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { BASE_URL } from '../db';
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -35,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!currentToken) return false;
 
         try {
-            const response = await fetch('http://localhost:8787/refresh-token', {
+            const response = await fetch(`${BASE_URL}/refresh-token`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,7 +95,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, []);
 
     const login = async (username: string, password: string): Promise<void> => {
-        const response = await fetch('http://localhost:8787/auth', {
+        const response = await fetch(`${BASE_URL}/auth`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
